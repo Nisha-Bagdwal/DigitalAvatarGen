@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>Text to Digital Avatar Video Generator</h1>
+
+  <!-- Text input for TTS -->
+  <div>
+    <label for="text-input">Enter text:</label>
+    <textarea id="text-input" [(ngModel)]="inputText"></textarea>
+  </div>
+
+  <!-- Dropdown for Avatar Selection -->
+  <div>
+    <label for="avatar-select">Choose an avatar:</label>
+    <select id="avatar-select" [(ngModel)]="selectedAvatar">
+      <option value="avatar1">Avatar 1</option>
+      <option value="avatar2">Avatar 2</option>
+      <!-- Add more avatars as needed -->
+    </select>
+  </div>
+
+  <!-- Button to trigger video generation -->
+  <button (click)="generateAvatarVideo()">Generate Video</button>
+
+  <!-- Display generated video -->
+  <div *ngIf="generatedVideoUrl">
+    <h3>Your Generated Avatar Video:</h3>
+    <video [src]="generatedVideoUrl" controls></video>
+  </div>
+</div>
