@@ -1,22 +1,103 @@
-.container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
 }
+
+.overlay-container {
+    position: relative;
+    width: 100%;
+    height: auto; /* Allow height to adjust based on content */
+    min-height: 100vh; /* Minimum height for full viewport */
+    overflow: auto; /* Enable scrolling if content overflows */
+}
+
+.overlay-container img {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.container {
+    position: relative; /* Changed to relative for better flow */
+    width: 45%; /* Use a percentage for responsiveness */
+    max-width: 1200px; /* Set maximum width */
+    padding: 30px; 
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 80px auto 20px; /* Center container with margin */
+    min-height: 300px; /* Minimum height for the container */
+}
+
 h1 {
     text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
-textarea, select, button {
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+textarea, select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 16px;
+    transition: border-color 0.3s;
 }
+
+textarea:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.generate-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.generate-btn:hover {
+    background-color: #0056b3;
+}
+
 .video-container {
     text-align: center;
+    margin-top: 20px;
+    min-height: 100px; /* Provide a minimum height for the video container */
 }
+
 video {
     max-width: 100%;
+    border-radius: 10px;
 }

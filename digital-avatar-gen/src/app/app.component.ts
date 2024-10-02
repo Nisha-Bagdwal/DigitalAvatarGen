@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  imports: [FormsModule, CommonModule],
 })
+
 export class AppComponent {
   inputText: string = ''; // Holds the text for TTS
   selectedAvatar: string = 'avatar1'; // Holds the selected avatar
@@ -12,8 +17,7 @@ export class AppComponent {
 
   // Function to generate the avatar video
   generateAvatarVideo() {
-    // Placeholder logic for generating video
-    // You'll integrate this with your backend API to call Google TTS and Automate 1111
+  
     if (this.inputText && this.selectedAvatar) {
       console.log('Text:', this.inputText);
       console.log('Selected Avatar:', this.selectedAvatar);
