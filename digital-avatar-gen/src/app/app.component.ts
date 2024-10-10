@@ -15,6 +15,11 @@ export class AppComponent {
   selectedAvatar: string = 'avatar1'; // Holds the selected avatar
   generatedVideoUrl: string | null = null; // Holds the URL of the generated video
 
+  // Function to select an avatar
+  selectAvatar(avatar: string) {
+    this.selectedAvatar = avatar;
+  }
+  
   // Function to generate the avatar video
   generateAvatarVideo() {
   
@@ -25,7 +30,7 @@ export class AppComponent {
       // Call backend API to process the video generation
 
       // For now, simulate a generated video
-      this.generatedVideoUrl = 'assets/generated-video.mp4';  // Replace with actual video URL
+      this.generatedVideoUrl = './assets/generated-video.mp4';  // Replace with actual video URL
     } else {
       alert('Please enter text and select an avatar.');
     }

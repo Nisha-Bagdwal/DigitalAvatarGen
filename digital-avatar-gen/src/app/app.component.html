@@ -1,7 +1,8 @@
 <div class="overlay-container">
-  <img src="./assets/background.webp" style="width: 100%; height: 100%;">
+  <img src="./assets/background_gpt.png" class="background-image" style="width: 100%; height: 100%;">
   <div class="container">
     <h1>Text to Digital Avatar Video Generator</h1>
+    <h4>Powered by Digital Avatar Gen</h4>
 
     <div class="input-group">
       <label for="text-input">Enter text:</label>
@@ -10,11 +11,14 @@
 
     <div class="input-group">
       <label for="avatar-select">Choose an avatar:</label>
-      <select id="avatar-select" [(ngModel)]="selectedAvatar">
-        <option value="avatar1">Avatar 1</option>
-        <option value="avatar2">Avatar 2</option>
-        <!-- Add more avatars as needed -->
-      </select>
+      <div class="avatar-grid">
+        <img src="./assets/avatar1.png" alt="Avatar 1" [class.selected]="selectedAvatar === 'avatar1'" (click)="selectAvatar('avatar1')">
+        <img src="./assets/avatar2.png" alt="Avatar 2" [class.selected]="selectedAvatar === 'avatar2'" (click)="selectAvatar('avatar2')">
+        <img src="./assets/avatar3.png" alt="Avatar 3" [class.selected]="selectedAvatar === 'avatar3'" (click)="selectAvatar('avatar3')">
+        <img src="./assets/avatar4.png" alt="Avatar 4" [class.selected]="selectedAvatar === 'avatar4'" (click)="selectAvatar('avatar4')">
+        <img src="./assets/avatar5.png" alt="Avatar 5" [class.selected]="selectedAvatar === 'avatar5'" (click)="selectAvatar('avatar5')">
+        <img src="./assets/avatar6.png" alt="Avatar 6" [class.selected]="selectedAvatar === 'avatar6'" (click)="selectAvatar('avatar6')">
+      </div>
     </div>
 
     <button class="generate-btn" (click)="generateAvatarVideo()">Generate Video</button>
