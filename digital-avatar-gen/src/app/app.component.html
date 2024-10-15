@@ -10,6 +10,23 @@
     </div>
 
     <div class="input-group">
+      <label for="voice-type">Select voice:</label>
+      <label>
+        <input type="radio" name="voice" value="male" [(ngModel)]="selectedVoice" />
+        Male
+      </label>
+      
+      <label>
+        <input type="radio" name="voice" value="female" [(ngModel)]="selectedVoice" />
+        Female
+      </label>
+      <label>
+        <input type="radio" name="voice" value="female" [(ngModel)]="selectedVoice" />
+        Nuetral
+      </label>
+    </div>
+
+    <div class="input-group">
       <label for="avatar-select">Choose an avatar:</label>
       <div class="avatar-grid">
         <img src="./assets/avatar1.png" alt="Avatar 1" [class.selected]="selectedAvatar === 'avatar1'" (click)="selectAvatar('avatar1')">
