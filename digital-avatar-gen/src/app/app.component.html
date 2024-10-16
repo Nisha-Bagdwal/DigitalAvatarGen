@@ -1,5 +1,6 @@
 <div class="overlay-container">
-  <img src="./assets/background_gpt.png" class="background-image" style="width: 100%; height: 100%;">
+  <!-- <img src="./assets/background_gpt.png" class="background-image" style="width: 100%; height: 100%;"> -->
+  
   <div class="container">
     <h1>Text to Digital Avatar Video Generator</h1>
     <h4>Powered by Digital Avatar Gen</h4>
@@ -8,32 +9,25 @@
       <label for="text-input">Enter text:</label>
       <textarea id="text-input" [(ngModel)]="inputText" placeholder="Type your text here..."></textarea>
     </div>
-<!--
+
     <div class="input-group">
-      <label for="voice-type">Select voice:</label>
-      <table><tr>
-        <td>
-      <label>
-        <input type="radio" name="voice" value="male" [(ngModel)]="selectedVoice" />
-        Male
-      </label>
-    </td>
-    <td>
-      <label>
-        <input type="radio" name="voice" value="female" [(ngModel)]="selectedVoice" />
-        Female
-      </label>
-    </td>
-    <td>
-      <label>
-        <input type="radio" name="voice" value="female" [(ngModel)]="selectedVoice" />
-        Nuetral
-      </label>
-    </td>
-    </tr>
-    </table>
+      <label>Select voice:</label>
+      <div class="voice-options">
+        <label>
+          <input type="radio" name="voice" [(ngModel)]="selectedVoice" value="male">
+          Male
+        </label>
+        <label>
+          <input type="radio" name="voice" [(ngModel)]="selectedVoice" value="female">
+          Female
+        </label>
+        <label>
+          <input type="radio" name="voice" [(ngModel)]="selectedVoice" value="neutral">
+          Neutral
+        </label>
+      </div>
     </div>
--->
+
     <div class="input-group">
       <label for="avatar-select">Choose an avatar:</label>
       <div class="avatar-grid">
