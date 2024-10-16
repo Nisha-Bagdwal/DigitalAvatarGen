@@ -14,7 +14,7 @@ export class AppComponent {
   inputText: string = ''; // Holds the text for TTS
   selectedAvatar: string = 'avatar1'; // Holds the selected avatar
   generatedVideoUrl: string | null = null; // Holds the URL of the generated video
-  selectedVoice: string = 'FEMALE';
+  //selectedVoice: string = 'FEMALE';
 
   // Function to select an avatar
   selectAvatar(avatar: string) {
