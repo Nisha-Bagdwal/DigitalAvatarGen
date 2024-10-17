@@ -42,6 +42,14 @@
 
     <button class="generate-btn" (click)="generateAvatarVideo()">Generate Video</button>
 
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+      <p>Generating video...</p>
+    </div>
+
     <div *ngIf="generatedVideoUrl" class="video-container">
       <h3>Your Generated Avatar Video:</h3>
       <video [src]="generatedVideoUrl" controls></video>

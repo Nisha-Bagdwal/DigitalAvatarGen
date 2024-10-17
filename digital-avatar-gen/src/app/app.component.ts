@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, HttpClientModule],
 })
 
 export class AppComponent {
@@ -19,6 +19,7 @@ export class AppComponent {
   selectedAvatar: string = 'avatar1'; // Holds the selected avatar
   selectedVoice: string = 'neutral'; // Holds the selected voice
   generatedVideoUrl: string | null = null; // Holds the URL of the generated video
+  isLoading: boolean = false; // Track loading state
 
   // Function to select an avatar
   selectAvatar(avatar: string) {
@@ -27,6 +28,9 @@ export class AppComponent {
 
   // Function to generate the avatar video
   generateAvatarVideo() {
+    // Remove the already showing video by resetting the generatedVideoUrl
+    this.generatedVideoUrl = null; // Clear previous video
+
     if (this.inputText && this.selectedAvatar && this.selectedVoice) {
       console.log('Text:', this.inputText);
       console.log('Selected Avatar:', this.selectedAvatar);
@@ -41,16 +45,23 @@ export class AppComponent {
   
       // Log the payload to the console before sending the request
       console.log('Payload to be sent to API:', payload);
+
+      // Set loading state to true
+      this.isLoading = true;
   
       // Call the backend API to process the video generation
       this.http.post('https://localhost:8080/generateAvatarVideo', payload)
         .subscribe((response: any) => {
           // Assuming the response contains the URL of the generated video
           this.generatedVideoUrl = './assets/generated-video.mp4';  // Replace with actual video URL from response
+          // Reset loading state
+          this.isLoading = false;
         }, (error) => {
           console.error('Error generating video:', error);
           alert('Failed to generate the video. Please try again later.');
           this.generatedVideoUrl = './assets/generated-video.mp4';  // Fallback video URL
+          // Reset loading state
+          this.isLoading = false;
         });
   
     } else {
