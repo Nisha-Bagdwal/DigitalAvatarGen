@@ -11,7 +11,7 @@ body {
     height: auto;
     min-height: 100vh;
     overflow: auto;
-    background-image: url('/assets/background_gpt.png'); /* Set the background image here */
+    background-image: url('/assets/back.webp'); /* Set the background image here */
     background-position: center;
     background-size: cover; /* Ensure the image covers the container */
     background-repeat: no-repeat;
