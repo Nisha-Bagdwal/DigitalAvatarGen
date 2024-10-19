@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { response } from 'express';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +41,7 @@ export class AppComponent {
       const payload = {
         text: this.inputText,
         voice: this.selectedVoice,
-        avatarPath: `./assets/${this.selectedAvatar}.png`  // Assuming the avatar image is in assets
+        avatar_name: `${this.selectedAvatar}.png`  // Assuming the avatar image is in assets
       };
   
       // Log the payload to the console before sending the request
@@ -50,16 +51,17 @@ export class AppComponent {
       this.isLoading = true;
   
       // Call the backend API to process the video generation
-      this.http.post('https://localhost:8080/generateAvatarVideo', payload)
+      this.http.post('http://10.96.50.100:5000/generate', payload) //added url AK
         .subscribe((response: any) => {
           // Assuming the response contains the URL of the generated video
-          this.generatedVideoUrl = './assets/generated-video.mp4';  // Replace with actual video URL from response
+          this.generatedVideoUrl = response.Path;  // Replace with actual video URL from response // Added parsing for the response received - Akansha 
           // Reset loading state
           this.isLoading = false;
         }, (error) => {
           console.error('Error generating video:', error);
           alert('Failed to generate the video. Please try again later.');
-          this.generatedVideoUrl = './assets/generated-video.mp4';  // Fallback video URL
+
+          this.generatedVideoUrl = '../../../../SadTalker/'+ this.generatedVideoUrl //'./assets/generated-video.mp4';  // Fallback video URL // Added path to retrive the video -Akansha
           // Reset loading state
           this.isLoading = false;
         });
