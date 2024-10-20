@@ -54,14 +54,13 @@ export class AppComponent {
       this.http.post('http://10.96.50.100:5000/generate', payload) //added url AK
         .subscribe((response: any) => {
           // Assuming the response contains the URL of the generated video
-          this.generatedVideoUrl = response.Path;  // Replace with actual video URL from response // Added parsing for the response received - Akansha 
+          this.generatedVideoUrl = '../../../SadTalker/'+ response.Path;  // Replace with actual video URL from response // Added parsing for the response received - Akansha 
           // Reset loading state
           this.isLoading = false;
         }, (error) => {
           console.error('Error generating video:', error);
           alert('Failed to generate the video. Please try again later.');
-
-          this.generatedVideoUrl = '../../../../SadTalker/'+ this.generatedVideoUrl //'./assets/generated-video.mp4';  // Fallback video URL // Added path to retrive the video -Akansha
+          this.generatedVideoUrl = './assets/generated-video.mp4';  // Fallback video URL // 
           // Reset loading state
           this.isLoading = false;
         });
