@@ -51,11 +51,13 @@ export class AppComponent {
       this.isLoading = true;
   
       // Call the backend API to process the video generation
-      this.http.post('http://10.96.50.100:5000/generate', payload) //added url AK
-        .subscribe((response: any) => {
-          // Assuming the response contains the URL of the generated video
-          this.generatedVideoUrl = '../../../SadTalker/'+ response.Path;  // Replace with actual video URL from response // Added parsing for the response received - Akansha 
-          // Reset loading state
+      //Adding URL of the server and the specifying the type of response received - Akansha
+      this.http.post('http://10.96.50.100:5000/generate', payload,{  responseType: 'blob' }) 
+        .subscribe((response: Blob) => {
+          // Declaring the parameters to receive the video from the server - Akansha
+          const videoBlob = new Blob([response], { type: 'video/mp4' });
+          this.generatedVideoUrl = URL.createObjectURL(videoBlob); // Creating a URL for the video blob - Akansha
+          // Reset loading state */
           this.isLoading = false;
         }, (error) => {
           console.error('Error generating video:', error);
