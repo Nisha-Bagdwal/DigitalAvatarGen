@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { response } from 'express';
 
 @Component({
   selector: 'app-root',
@@ -13,63 +12,80 @@ import { response } from 'express';
 })
 
 export class AppComponent {
+  inputText: string = '';
+  selectedAvatar: string = 'avatar1';
+  selectedVoice: string = 'neutral';
+  generatedVideoUrl: string | null = null;
+  isLoading: boolean = false;
+  useUploadedImage: boolean = false;
+  uploadedImageFile: File | null = null;
 
   constructor(private http: HttpClient) {}
-
-  inputText: string = ''; // Holds the text for TTS
-  selectedAvatar: string = 'avatar1'; // Holds the selected avatar
-  selectedVoice: string = 'neutral'; // Holds the selected voice
-  generatedVideoUrl: string | null = null; // Holds the URL of the generated video
-  isLoading: boolean = false; // Track loading state
 
   // Function to select an avatar
   selectAvatar(avatar: string) {
     this.selectedAvatar = avatar;
   }
 
-  // Function to generate the avatar video
-  generateAvatarVideo() {
-    // Remove the already showing video by resetting the generatedVideoUrl
-    this.generatedVideoUrl = null; // Clear previous video
-
-    if (this.inputText && this.selectedAvatar && this.selectedVoice) {
-      console.log('Text:', this.inputText);
-      console.log('Selected Avatar:', this.selectedAvatar);
-      console.log('Selected Voice:', this.selectedVoice);
-  
-      // Prepare the payload to send to the backend API
-      const payload = {
-        text: this.inputText,
-        voice: this.selectedVoice,
-        avatar_name: `${this.selectedAvatar}.png`  // Assuming the avatar image is in assets
-      };
-  
-      // Log the payload to the console before sending the request
-      console.log('Payload to be sent to API:', payload);
-
-      // Set loading state to true
-      this.isLoading = true;
-  
-      // Call the backend API to process the video generation
-      //Adding URL of the server and the specifying the type of response received - Akansha
-      this.http.post('http://10.96.50.100:5000/generate', payload,{  responseType: 'blob' }) 
-        .subscribe((response: Blob) => {
-          // Declaring the parameters to receive the video from the server - Akansha
-          const videoBlob = new Blob([response], { type: 'video/mp4' });
-          this.generatedVideoUrl = URL.createObjectURL(videoBlob); // Creating a URL for the video blob - Akansha
-          // Reset loading state */
-          this.isLoading = false;
-        }, (error) => {
-          console.error('Error generating video:', error);
-          alert('Failed to generate the video. Please try again later.');
-          this.generatedVideoUrl = './assets/generated-video.mp4';  // Fallback video URL // 
-          // Reset loading state
-          this.isLoading = false;
-        });
-  
-    } else {
-      alert('Please enter text, select an avatar, and select a voice.');
+  // Handle image file selection
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.uploadedImageFile = file;
     }
   }
-}  
+
+  // Function to generate the avatar video
+  generateAvatarVideo() {
+    this.generatedVideoUrl = null;
+  
+    if (this.inputText && this.selectedVoice && (this.selectedAvatar || this.uploadedImageFile)) {
+      console.log('Text:', this.inputText);
+      console.log('Selected Voice:', this.selectedVoice);
+  
+      // Prepare form data to send to the backend
+      const formData = new FormData();
+      formData.append('text', this.inputText);
+      formData.append('voice', this.selectedVoice);
+  
+      this.isLoading = true;
+  
+      if (this.useUploadedImage && this.uploadedImageFile) {
+        // Use the uploaded image file
+        formData.append('image', this.uploadedImageFile, this.uploadedImageFile.name);
+        this.sendRequest(formData);
+      } else {
+        // Load the selected avatar image from assets as a Blob
+        this.http.get(`./assets/${this.selectedAvatar}.png`, { responseType: 'blob' })
+          .subscribe((avatarBlob: Blob) => {
+            formData.append('image', avatarBlob, `${this.selectedAvatar}.png`);
+            this.sendRequest(formData);
+          }, (error) => {
+            console.error('Error loading avatar image:', error);
+            alert('Failed to load the avatar image. Please try again later.');
+            this.isLoading = false;
+          });
+      }
+    } else {
+      alert('Please enter text, select an avatar or upload an image, and select a voice.');
+    }
+  }
+  
+  // Separate function to send the form data request
+  private sendRequest(formData: FormData) {
+    console.log('formData', formData.get('image'));
+    this.http.post('http://10.96.50.100:5000/generate', formData, { responseType: 'blob' })
+      .subscribe((response: Blob) => {
+        const videoBlob = new Blob([response], { type: 'video/mp4' });
+        this.generatedVideoUrl = URL.createObjectURL(videoBlob);
+        this.isLoading = false;
+      }, (error) => {
+        console.error('Error generating video:', error);
+        alert('Failed to generate the video. Please try again later.');
+        this.generatedVideoUrl = './assets/generated-video.mp4';
+        this.isLoading = false;
+      });
+  }
+  
+}
 

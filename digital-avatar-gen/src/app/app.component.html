@@ -29,6 +29,18 @@
     </div>
 
     <div class="input-group">
+      <label>Choose Avatar or Upload Image:</label>
+      <div>
+        <label>
+          <input type="radio" name="avatarChoice" [(ngModel)]="useUploadedImage" [value]="false"> Select Avatar
+        </label>
+        <label>
+          <input type="radio" name="avatarChoice" [(ngModel)]="useUploadedImage" [value]="true"> Upload Image
+        </label>
+      </div>
+    </div>
+    
+    <div *ngIf="!useUploadedImage" class="input-group">
       <label for="avatar-select">Choose an avatar:</label>
       <div class="avatar-grid">
         <img src="./assets/avatar1.png" alt="Avatar 1" [class.selected]="selectedAvatar === 'avatar1'" (click)="selectAvatar('avatar1')">
@@ -38,6 +50,11 @@
         <img src="./assets/avatar5.png" alt="Avatar 5" [class.selected]="selectedAvatar === 'avatar5'" (click)="selectAvatar('avatar5')">
         <img src="./assets/avatar6.png" alt="Avatar 6" [class.selected]="selectedAvatar === 'avatar6'" (click)="selectAvatar('avatar6')">
       </div>
+    </div>
+
+    <div *ngIf="useUploadedImage" class="input-group">
+      <label for="image-upload">Upload an image:</label>
+      <input type="file" id="image-upload" (change)="onFileSelected($event)">
     </div>
 
     <button class="generate-btn" (click)="generateAvatarVideo()">Generate Video</button>
