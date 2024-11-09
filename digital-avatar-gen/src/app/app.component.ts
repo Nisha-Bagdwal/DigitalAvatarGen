@@ -20,6 +20,10 @@ export class AppComponent {
   useUploadedImage: boolean = false;
   uploadedImageFile: File | null = null;
 
+  // Variables for filename received from thee server and pollingInterval counter
+  fileName: string = '';
+  private pollingInterval: any;
+
   constructor(private http: HttpClient) {}
 
   // Function to select an avatar
@@ -34,6 +38,8 @@ export class AppComponent {
       this.uploadedImageFile = file;
     }
   }
+
+
 
   // Function to generate the avatar video
   generateAvatarVideo() {
@@ -71,9 +77,42 @@ export class AppComponent {
     }
   }
   
+  checkVideoStatus() {
+    this.pollingInterval = setInterval(() => {
+      this.http.get<any>(`http://10.96.50.100:5000/check-video-status?file_name=${this.fileName}`).subscribe(response => {
+        if (response.status === 'completed') {
+          clearInterval(this.pollingInterval);
+          this.getVideo()
+          //this.isLoading = false;
+          //this.generatedVideoUrl = response.video_path;
+        }
+      });
+    }, 60000);  // Poll every 1 min = 60 seconds
+  }
+
+ getVideo()
+ {
+  this.http.post('http://10.96.50.100:5000/getVideo', { fileName: this.fileName }, { responseType: 'blob' })
+      .subscribe((response: Blob) => {
+        const videoBlob = new Blob([response], { type: 'video/mp4' });
+        this.generatedVideoUrl = URL.createObjectURL(videoBlob);
+        this.isLoading = false;
+      }, (error) => {
+        console.error('Error generating video:', error);
+        alert('Failed to generate the video. Please try again later.');
+        this.generatedVideoUrl = './assets/generated-video.mp4';
+        this.isLoading = false;
+      });
+ }
+ 
   // Separate function to send the form data request
   private sendRequest(formData: FormData) {
     console.log('formData', formData.get('image'));
+    this.http.post<any>('http://10.96.50.100:5000/generate', formData,).subscribe(response => {
+      this.fileName = response.file_name;
+      this.checkVideoStatus();  // Start polling
+    });
+    /*
     this.http.post('http://10.96.50.100:5000/generate', formData, { responseType: 'blob' })
       .subscribe((response: Blob) => {
         const videoBlob = new Blob([response], { type: 'video/mp4' });
@@ -85,7 +124,9 @@ export class AppComponent {
         this.generatedVideoUrl = './assets/generated-video.mp4';
         this.isLoading = false;
       });
-  }
-  
-}
+      */
 
+
+  }
+
+}
