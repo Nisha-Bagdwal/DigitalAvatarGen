@@ -112,20 +112,6 @@ export class AppComponent {
       this.fileName = response.file_name;
       this.checkVideoStatus();  // Start polling
     });
-    /*
-    this.http.post('http://10.96.50.100:5000/generate', formData, { responseType: 'blob' })
-      .subscribe((response: Blob) => {
-        const videoBlob = new Blob([response], { type: 'video/mp4' });
-        this.generatedVideoUrl = URL.createObjectURL(videoBlob);
-        this.isLoading = false;
-      }, (error) => {
-        console.error('Error generating video:', error);
-        alert('Failed to generate the video. Please try again later.');
-        this.generatedVideoUrl = './assets/generated-video.mp4';
-        this.isLoading = false;
-      });
-      */
-
 
   }
 
