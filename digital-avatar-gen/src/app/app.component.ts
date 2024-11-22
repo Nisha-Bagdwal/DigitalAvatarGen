@@ -19,7 +19,7 @@ export class AppComponent {
   isLoading: boolean = false;
   useUploadedImage: boolean = false;
   uploadedImageFile: File | null = null;
-
+  
   // Variables for filename received from thee server and pollingInterval counter
   fileName: string = '';
   private pollingInterval: any;
@@ -38,8 +38,6 @@ export class AppComponent {
       this.uploadedImageFile = file;
     }
   }
-
-
 
   // Function to generate the avatar video
   generateAvatarVideo() {
@@ -83,8 +81,6 @@ export class AppComponent {
         if (response.status === 'completed') {
           clearInterval(this.pollingInterval);
           this.getVideo()
-          //this.isLoading = false;
-          //this.generatedVideoUrl = response.video_path;
         }
       });
     }, 60000);  // Poll every 1 min = 60 seconds
